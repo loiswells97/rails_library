@@ -1,1 +1,3 @@
-# rails_library
+# rails_library 📚
+
+This is a Rails app that implements a basic library where information about different books can be created, read, updated and deleted. Further functionality to follow...
