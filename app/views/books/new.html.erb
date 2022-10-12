@@ -1,0 +1,10 @@
+<%= link_to("< Back to library 📚", books_path, :class => 'back_button')%>
+
+<h1>Add a new book to the library</h1>
+
+<%= form_for(@book, :url => books_path, :method => 'post') do |f| %>
+  <%= render(:partial => 'form', :locals => {:f => f})%>
+  <div>
+    <%= f.submit("Create book")%>
+  </div>
+<% end %>

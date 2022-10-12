@@ -1,0 +1,32 @@
+<%= link_to('< Back to library 📚', books_path, :class => 'back_button')%>
+
+<h1><%= @book.title %></h1>
+
+<%= render(:partial => "photo", :locals => {:book => @book}) unless @book.photo_blob.nil?%>
+<div>
+  <span><strong>Title:</strong></span>
+  <span><%= @book.title %></span>
+</div>
+<div>
+  <span><strong>Subtitle:</strong></span>
+  <span><%= @book.subtitle %></span>
+</div>
+<div>
+  <span><strong>Author:</strong></span>
+  <span><%= @book.author %></span>
+</div>
+<div>
+  <span><strong>Publisher:</strong></span>
+  <span><%= @book.publisher %></span>
+</div>
+<div>
+  <span><strong>Date of publication:</strong></span>
+  <span><%= @book.publication_date %></span>
+</div>
+<div>
+  <span><strong>Number of pages:</strong></span>
+  <span><%= @book.number_of_pages %></span>
+</div>
+
+<%= link_to('✏️ Edit', edit_book_path(@book), :class => 'action edit') %>
+<%= link_to('🗑 Delete', delete_book_path(@book), :class => 'action delete') %>

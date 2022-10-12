@@ -1,0 +1,12 @@
+<h1>Delete book</h1>
+
+<p>Are you sure you want to delete this book from the library?</p>
+<p><strong><%= @book.title %></strong></p>
+
+<%= form_for(@book, :method => 'delete') do |f| %>
+  <div>
+    <%= link_to("Cancel", books_path)%>
+    <%= f.submit("Delete book")%>
+  </div>
+<% end %>
+
