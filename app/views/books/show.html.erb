@@ -24,9 +24,18 @@
   <span><%= @book.publication_date %></span>
 </div>
 <div>
+  <span><strong>Year first published:</strong></span>
+  <span><%= @book.year_first_published || "Unknown" %></span>
+</div>
+<div>
   <span><strong>Number of pages:</strong></span>
   <span><%= @book.number_of_pages %></span>
 </div>
+<div>
+  <span><strong>Read?:</strong></span>
+  <span><%= @book.has_been_read %></span>
+</div>
+
 
 <%= link_to('✏️ Edit', edit_book_path(@book), :class => 'action edit') %>
 <%= link_to('🗑 Delete', delete_book_path(@book), :class => 'action delete') %>

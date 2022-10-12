@@ -6,6 +6,7 @@
     <th>Title</th>
     <th>Author</th>
     <th>Number of pages</th>
+    <th>Read?</th>
     <th>Actions</th>
   </tr>
 <% @books.each do |book| %>
@@ -13,6 +14,14 @@
     <td><%= book.title %></td>
     <td><%= book.author %></td>
     <td><%= book.number_of_pages %> pages</td>
+    <td><%=
+    if book.has_been_read == "Yes"
+      "✅"
+    elsif book.has_been_read == "No"
+      "❌"
+    elsif book.has_been_read == "In progress"
+      "🔄"
+    end %></td>
     <td>
       <%= link_to("🔍", book_path(book), :class => 'action show')%>
       <%= link_to("✏️", edit_book_path(book), :class => 'action edit')%>

@@ -7,8 +7,14 @@
 <p>Publisher</p>
 <%= f.text_field(:publisher) %>
 <p>Publication date</p>
-<%= f.text_field(:publication_date) %>
+<%= f.number_field(:publication_date) %>
+<p>Year first published<p>
+<%= f.number_field(:year_first_published) %>
 <p>Number of pages</p>
 <%= f.number_field(:number_of_pages) %>
 <p>Photo</p>
 <%= f.file_field(:photo) %>
+<p>Read?</p>
+<%= f.radio_button :has_been_read, 'Yes'%>Yes
+<%= f.radio_button :has_been_read, 'In progress'%>In progress
+<%= f.radio_button :has_been_read, 'No'%>No
