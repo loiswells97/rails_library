@@ -1,0 +1,20 @@
+<h1>Book Lists 📜</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Number of books</th>
+    <th>Actions</th>
+  </tr>
+  <% @lists.each do |list| %>
+    <tr>
+      <td><%= list.title %></td>
+      <td><%= list.description %></td>
+      <td><%= list.books.length() %></td>
+      <td>
+        <%= link_to("🔍", list_path(list), :class => 'action show')%>
+      </td>
+    </tr>
+  <% end %>
+</table>

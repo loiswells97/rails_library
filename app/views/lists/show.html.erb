@@ -1,0 +1,35 @@
+<%= link_to('< Back to lists 📜', lists_path, :class => 'back_button')%>
+
+<h1><%= @list.title %></h1>
+
+<p><%= @list.description %></p>
+
+<div>
+  <table>
+    <tr>
+      <th><%= link_to "Title", :sort => 'title', :filter => {search_term: @search_term} %></th>
+      <th><%= link_to "Author", :sort => 'author', :filter => {search_term: @search_term} %></th>
+      <th><%= link_to "Number of pages", :sort => 'number_of_pages', :filter => {search_term: @search_term} %></th>
+      <th><%= link_to "Read?", :sort => 'has_been_read', :filter => {search_term: @search_term} %></th>
+      <th>Actions</th>
+    </tr>
+  <% @list.books.each do |book| %>
+    <tr>
+      <td><%= book.title %></td>
+      <td><%= book.author %></td>
+      <td><%= book.number_of_pages %> pages</td>
+      <td><%=
+      if book.has_been_read == "Yes"
+        "✅"
+      elsif book.has_been_read == "No"
+        "❌"
+      elsif book.has_been_read == "In progress"
+        "🔄"
+      end %></td>
+      <td>
+        <%= link_to("🔍", book_path(book), :class => 'action show')%>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+</div>
