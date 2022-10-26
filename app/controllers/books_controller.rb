@@ -64,6 +64,7 @@ class BooksController < ApplicationController
       return relation if filter_params.empty?
       relation.where("lower(title) LIKE (?)", "%#{filter_params[:search_term]}%")
       .or(relation.where("lower(author) LIKE (?)", "%#{filter_params[:search_term]}%"))
+      .or(relation.where("lower(subtitle) LIKE (?)", "%#{filter_params[:search_term]}%"))
       .or(relation.where("lower(blurb) LIKE (?)", "%#{filter_params[:search_term]}%"))
     end
 
