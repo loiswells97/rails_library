@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
 
   def index
-    @books = Book.order('title ASC')
+    @books = filter(Book.order('title ASC'))
   end
 
   def show
@@ -47,6 +47,16 @@ class BooksController < ApplicationController
   private
     def book_params
       params.require(:book).permit(:title, :subtitle, :author, :publisher, :publication_date, :number_of_pages, :photo, :year_first_published, :has_been_read)
+    end
+
+    def filter_params
+      params.fetch(:filter, {}).permit(:search_term)
+    end
+
+    def filter(relation)
+      return relation if filter_params.empty?
+      relation.where("lower(title) LIKE (?)", "%#{filter_params[:search_term]}%")
+      .or(relation.where("lower(author) LIKE (?)", "%#{filter_params[:search_term]}%"))
     end
 
 end
