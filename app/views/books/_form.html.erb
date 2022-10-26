@@ -12,6 +12,8 @@
 <%= f.number_field(:year_first_published) %>
 <p>Number of pages</p>
 <%= f.number_field(:number_of_pages) %>
+<p>Blurb</p>
+<%= f.text_area(:blurb, cols: 50, rows: 7)%>
 <p>Photo</p>
 <%= f.file_field(:photo) %>
 <p>Read?</p>

@@ -10,10 +10,10 @@
 
 <table>
   <tr>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Number of pages</th>
-    <th>Read?</th>
+    <th><%= link_to "Title", :sort => 'title', :filter => {search_term: @search_term} %></th>
+    <th><%= link_to "Author", :sort => 'author', :filter => {search_term: @search_term} %></th>
+    <th><%= link_to "Number of pages", :sort => 'number_of_pages', :filter => {search_term: @search_term} %></th>
+    <th><%= link_to "Read?", :sort => 'has_been_read', :filter => {search_term: @search_term} %></th>
     <th>Actions</th>
   </tr>
 <% @books.each do |book| %>
