@@ -1,0 +1,13 @@
+<%= link_to('< Back to lists 📜', lists_path, :class => 'back_button')%>
+
+<h1>Add a new book list</h1>
+
+<%= form_for(@list, :url => lists_path, :method => 'post') do |f| %>
+  <p>Title</p>
+  <%= f.text_field(:title) %>
+  <p>Description</p>
+  <%= f.text_area(:description) %>
+  <div>
+    <%= f.submit("Create list")%>
+  </div>
+<% end %>

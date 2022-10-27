@@ -1,16 +1,16 @@
 <h1>Book Lists 📜</h1>
 
+<%= link_to("📝 Add a new list", new_list_path, :class => 'action new')%>
+
 <table>
   <tr>
     <th>Title</th>
-    <th>Description</th>
     <th>Number of books</th>
     <th>Actions</th>
   </tr>
   <% @lists.each do |list| %>
     <tr>
       <td><%= list.title %></td>
-      <td><%= list.description %></td>
       <td><%= list.books.length() %></td>
       <td>
         <%= link_to("🔍", list_path(list), :class => 'action show')%>
