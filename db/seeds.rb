@@ -5,3 +5,16 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+List.create([
+  {
+    title: 'Favourites 🌟',
+    description: 'My favourite books all in one place!',
+    is_default: true
+  },
+  {
+    title: 'Up Next 📖',
+    description: 'Books on the radar to be read next',
+    is_default: true
+  }
+])

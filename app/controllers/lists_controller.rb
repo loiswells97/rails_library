@@ -1,7 +1,7 @@
 class ListsController < ApplicationController
 
   def index
-    @lists = List.all
+    @lists = List.all.order(is_default: :desc, title: :asc)
   end
 
   def show

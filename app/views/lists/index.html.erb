@@ -17,7 +17,9 @@
       <td>
         <%= link_to("🔍", list_path(list), :class => 'action show')%>
         <%= link_to("✏️", edit_list_path(list), :class => 'action edit')%>
-        <%= link_to("🗑", delete_list_path(list), :class => 'action delete')%>
+        <% if !list.is_default%>
+          <%= link_to("🗑", delete_list_path(list), :class => 'action delete')%>
+        <% end %>
       </td>
     </tr>
   <% end %>
