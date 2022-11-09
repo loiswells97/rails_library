@@ -10,6 +10,7 @@ class ListsController < ApplicationController
 
   def new
     @list = List.new
+    @books = Book.all.order(title: :asc)
   end
 
   def create
@@ -23,6 +24,7 @@ class ListsController < ApplicationController
 
   def edit
     @list = List.find(params[:id])
+    @books = Book.all.order(title: :asc)
   end
 
   def update
@@ -46,7 +48,7 @@ class ListsController < ApplicationController
 
   private
     def list_params
-      params.require(:list).permit(:title, :description)
+      params.require(:list).permit(:title, :description, book_ids: [])
     end
     
 end

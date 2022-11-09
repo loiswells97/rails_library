@@ -1,0 +1,6 @@
+<p>Title</p>
+<%= f.text_field(:title) %>
+<p>Description</p>
+<%= f.text_area(:description) %>
+<p>Books</p>
+<%= f.collection_select :book_ids, @books, :id, :title, {}, { multiple: true } %>

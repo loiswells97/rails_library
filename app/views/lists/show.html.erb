@@ -33,3 +33,6 @@
   <% end %>
   </table>
 </div>
+
+<%= link_to('✏️ Edit', edit_list_path(@list), :class => 'action edit') %>
+<%= link_to('🗑 Delete', delete_list_path(@list), :class => 'action delete') %>

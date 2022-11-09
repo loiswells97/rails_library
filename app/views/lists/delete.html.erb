@@ -1,0 +1,12 @@
+<h1>Delete list</h1>
+
+<p>Are you sure you want to delete this list from the library?</p>
+<p><strong><%= @list.title %></strong></p>
+
+<%= form_for(@list, :method => 'delete') do |f| %>
+  <div>
+    <%= link_to("Cancel", lists_path)%>
+    <%= f.submit("Delete list")%>
+  </div>
+<% end %>
+
