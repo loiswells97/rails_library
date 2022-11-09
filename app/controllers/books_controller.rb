@@ -60,13 +60,15 @@ class BooksController < ApplicationController
       params.fetch(:filter, {}).permit(:search_term)
     end
 
-    def filter(relation)
-      return relation if filter_params.empty?
-      relation.where("lower(title) LIKE (?)", "%#{filter_params[:search_term]}%")
-      .or(relation.where("lower(author) LIKE (?)", "%#{filter_params[:search_term]}%"))
-      .or(relation.where("lower(subtitle) LIKE (?)", "%#{filter_params[:search_term]}%"))
-      .or(relation.where("lower(blurb) LIKE (?)", "%#{filter_params[:search_term]}%"))
-      .or(relation.where("lower(publisher) LIKE (?)", "%#{filter_params[:search_term]}%"))
+    def filter(books)
+      return books if filter_params.empty?
+      book_search_results = books.where("lower(title) LIKE (?)", "%#{filter_params[:search_term]}%")
+      .or(books.where("lower(author) LIKE (?)", "%#{filter_params[:search_term]}%"))
+      .or(books.where("lower(subtitle) LIKE (?)", "%#{filter_params[:search_term]}%"))
+      .or(books.where("lower(blurb) LIKE (?)", "%#{filter_params[:search_term]}%"))
+      .or(books.where("lower(publisher) LIKE (?)", "%#{filter_params[:search_term]}%"))
+      list_search_results = books.joins(:lists).where("lower(lists.title) LIKE (?)", "%#{filter_params[:search_term]}%")
+      (book_search_results + list_search_results).uniq
     end
 
 end
