@@ -53,7 +53,7 @@ class BooksController < ApplicationController
 
   private
     def book_params
-      params.require(:book).permit(:title, :subtitle, :author, :publisher, :publication_date, :number_of_pages, :photo, :year_first_published, :blurb, :has_been_read)
+      params.require(:book).permit(:title, :subtitle, :author, :publisher, :publication_date, :number_of_pages, :photo, :year_first_published, :blurb, :has_been_read, :date_finished_reading)
     end
 
     def filter_params
@@ -66,6 +66,7 @@ class BooksController < ApplicationController
       .or(relation.where("lower(author) LIKE (?)", "%#{filter_params[:search_term]}%"))
       .or(relation.where("lower(subtitle) LIKE (?)", "%#{filter_params[:search_term]}%"))
       .or(relation.where("lower(blurb) LIKE (?)", "%#{filter_params[:search_term]}%"))
+      .or(relation.where("lower(publisher) LIKE (?)", "%#{filter_params[:search_term]}%"))
     end
 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_26_154308) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_09_120204) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_26_154308) do
     t.integer "year_first_published"
     t.string "has_been_read", default: "No"
     t.string "blurb"
+    t.date "date_finished_reading"
   end
 
   create_table "books_lists", id: false, force: :cascade do |t|

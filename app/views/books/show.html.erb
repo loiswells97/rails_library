@@ -39,6 +39,12 @@
   <span><strong>Read?:</strong></span>
   <span><%= @book.has_been_read %></span>
 </div>
+<% if @book.has_been_read == "Yes" %>
+  <div>
+    <span><strong>Date finished reading:</strong></span>
+    <span><%= @book.date_finished_reading %></span>
+  </div>
+<% end %>
 
 
 <%= link_to('✏️ Edit', edit_book_path(@book), :class => 'action edit') %>
