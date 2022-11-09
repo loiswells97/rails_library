@@ -6,7 +6,7 @@ class BooksController < ApplicationController
     if params[:sort] == 'has_been_read'
       @books = filter(Book.all).in_order_of(:has_been_read, STATUS_SORT_ORDER)
     else
-      @books = filter(Book.all).sort_by{|book| book[params[:sort] || :title]}
+      @books = filter(Book.all).sort_by{|book| book[params[:sort]]}
     end
     @search_term = filter_params[:search_term]
   end
@@ -62,13 +62,13 @@ class BooksController < ApplicationController
 
     def filter(books)
       return books if filter_params.empty?
-      book_search_results = books.where("lower(title) LIKE (?)", "%#{filter_params[:search_term]}%")
-      .or(books.where("lower(author) LIKE (?)", "%#{filter_params[:search_term]}%"))
-      .or(books.where("lower(subtitle) LIKE (?)", "%#{filter_params[:search_term]}%"))
-      .or(books.where("lower(blurb) LIKE (?)", "%#{filter_params[:search_term]}%"))
-      .or(books.where("lower(publisher) LIKE (?)", "%#{filter_params[:search_term]}%"))
-      list_search_results = books.joins(:lists).where("lower(lists.title) LIKE (?)", "%#{filter_params[:search_term]}%")
-      (book_search_results + list_search_results).uniq
+      title_results = books.where("lower(title) LIKE (?)", "%#{filter_params[:search_term]}%")
+      author_results = books.where("lower(author) LIKE (?)", "%#{filter_params[:search_term]}%")
+      subtitle_results = books.where("lower(subtitle) LIKE (?)", "%#{filter_params[:search_term]}%")
+      blurb_results = books.where("lower(blurb) LIKE (?)", "%#{filter_params[:search_term]}%")
+      publisher_results = books.where("lower(publisher) LIKE (?)", "%#{filter_params[:search_term]}%")
+      list_results = books.joins(:lists).where("lower(lists.title) LIKE (?)", "%#{filter_params[:search_term]}%")
+      (title_results + author_results + subtitle_results + list_results + blurb_results + publisher_results).uniq
     end
 
 end
