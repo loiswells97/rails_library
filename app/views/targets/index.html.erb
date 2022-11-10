@@ -1,0 +1,20 @@
+<%= link_to("< Back to library 📚", books_path, :class => 'back_button')%>
+
+<h1>Reading Targets 🎯</h1>
+
+<table>
+  <tr>
+    <th>Target</th>
+    <th>Start date</th>
+    <th>End date</th>
+    <th>Progress</th>
+  </tr>
+  <% @targets.each do |target|%>
+  <tr>
+    <td><%= "#{target.target} #{target.target_type}"%></td>
+    <td><%= target.start_date%></td>
+    <td><%= target.end_date%></td>
+    <td><%= "#{target_progress(target)}/#{target.target}"%></td>
+  </tr>
+  <% end %>
+</table>

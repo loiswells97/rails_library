@@ -8,6 +8,8 @@
 
 <%= link_to("📕 Add a new book", new_book_path, :class => 'action new')%>
 <%= link_to("📜 Book lists", lists_path, :class => 'action new')%>
+<%= link_to("🎯 Reading targets", targets_path, :class => 'action new')%>
+
 <% if @books.empty? && @search_term!=''%>
   <p>Sorry, there are no books matching your search 😬</p>
 <% elsif @books.empty? %>

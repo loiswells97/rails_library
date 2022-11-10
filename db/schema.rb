@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_09_122907) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_09_171841) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -65,6 +65,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_122907) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_default", default: false
+  end
+
+  create_table "targets", force: :cascade do |t|
+    t.string "target_type"
+    t.integer "target"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
