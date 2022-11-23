@@ -2,6 +2,8 @@ class ListsController < ApplicationController
 
   def index
     @lists = List.all.order(is_default: :desc, title: :asc)
+    @recent_count = Book.where(date_finished_reading: Date.today-30..Date.today).length
+    @current_count = Book.where(has_been_read: 'In progress').length
   end
 
   def show
@@ -44,6 +46,14 @@ class ListsController < ApplicationController
     @list = List.find(params[:id])
     @list.destroy
     redirect_to(lists_path)
+  end
+
+  def current
+    @books = Book.where(has_been_read: 'In progress')
+  end
+
+  def recent
+    @books = Book.where(date_finished_reading: Date.today-30..Date.today)
   end
 
   private

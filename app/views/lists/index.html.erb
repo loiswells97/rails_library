@@ -10,6 +10,20 @@
     <th>Number of books</th>
     <th>Actions</th>
   </tr>
+  <tr>
+      <td>In progress 🔄</td>
+      <td><%= @current_count %></td>
+      <td>
+        <%= link_to("🔍", current_lists_path, :class => 'action show')%>
+      </td>
+    </tr>
+    <tr>
+      <td>Recent reads 🗓📚✅</td>
+      <td><%= @recent_count %></td>
+      <td>
+        <%= link_to("🔍", recent_lists_path, :class => 'action show')%>
+      </td>
+    </tr>
   <% @lists.each do |list| %>
     <tr>
       <td><%= list.title %></td>

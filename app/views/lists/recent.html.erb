@@ -1,0 +1,7 @@
+<%= link_to('< Back to lists 📜', lists_path, :class => 'back_button')%>
+
+<h1>Recent reads 🗓📚✅</h1>
+
+<p>Books I've finished in the last 30 days</p>
+
+<%= render(:partial => 'books/table', :locals => {:books => @books, :search_term => @search_term})%>

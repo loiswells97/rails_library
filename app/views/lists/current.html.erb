@@ -1,0 +1,7 @@
+<%= link_to('< Back to lists 📜', lists_path, :class => 'back_button')%>
+
+<h1>In progress 🔄</h1>
+
+<p>Books being read right now!</p>
+
+<%= render(:partial => 'books/table', :locals => {:books => @books, :search_term => @search_term})%>

@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     member do
       get :delete
     end
+    collection do
+      get :current
+      get :recent
+    end
   end
 
   resources :targets do
