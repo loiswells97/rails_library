@@ -16,6 +16,8 @@
 <%= f.text_area(:blurb, cols: 50, rows: 7)%>
 <p>Photo</p>
 <%= f.file_field(:photo) %>
+<p>Lists</p>
+<%= f.collection_select :list_ids, @lists, :id, :title, {}, { multiple: true } %>
 <p>Read?</p>
 <%= f.radio_button :has_been_read, 'Yes'%>Yes
 <%= f.radio_button :has_been_read, 'In progress'%>In progress

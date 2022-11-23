@@ -21,6 +21,7 @@ class BooksController < ApplicationController
 
   def new
     @book = Book.new
+    @lists = List.all
   end
 
   def create
@@ -34,6 +35,7 @@ class BooksController < ApplicationController
 
   def edit
     @book = Book.find(params[:id])
+    @lists = List.all
   end
 
   def update
@@ -57,7 +59,20 @@ class BooksController < ApplicationController
 
   private
     def book_params
-      params.require(:book).permit(:title, :subtitle, :author, :publisher, :publication_date, :number_of_pages, :photo, :year_first_published, :blurb, :has_been_read, :date_finished_reading)
+      params.require(:book).permit(
+        :title,
+        :subtitle,
+        :author,
+        :publisher,
+        :publication_date,
+        :number_of_pages,
+        :photo,
+        :year_first_published,
+        :blurb,
+        :has_been_read,
+        :date_finished_reading,
+        list_ids: []
+      )
     end
 
     def filter_params
