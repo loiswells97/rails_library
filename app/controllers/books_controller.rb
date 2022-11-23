@@ -3,12 +3,16 @@ class BooksController < ApplicationController
   STATUS_SORT_ORDER = ['Yes', 'In progress', 'No']
 
   def index
-    if params[:sort] == 'has_been_read'
-      @books = filter(Book.all).in_order_of(:has_been_read, STATUS_SORT_ORDER)
+    @search_term = filter_params[:search_term]
+
+    if @search_term.nil? && params[:sort].nil?
+      @books = Book.all.sort_by{|book| book[:title]}
+    elsif params[:sort] == 'has_been_read'
+      @books = filter(Book.all).sort_by{|book| STATUS_SORT_ORDER.find_index(book[params[:sort]])}
     else
       @books = filter(Book.all).sort_by{|book| book[params[:sort]]}
     end
-    @search_term = filter_params[:search_term]
+
   end
 
   def show
