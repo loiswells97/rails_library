@@ -3,7 +3,7 @@
 <h1>Edit entry for <%= @book.title %></h1>
 
 <%= form_for(@book) do |f| %>
-  <%= render(:partial => 'form', :locals => {:f => f})%>
+  <%= render(:partial => 'form', :locals => {:f => f, :book => @book})%>
   <div>
     <%= f.submit("Update book")%>
   </div>

@@ -9,6 +9,8 @@ class BooksController < ApplicationController
       @books = Book.all.sort_by{|book| book[:title]}
     elsif params[:sort] == 'has_been_read'
       @books = filter(Book.all).sort_by{|book| STATUS_SORT_ORDER.find_index(book[params[:sort]])}
+    elsif params[:sort] == 'author'
+      @books = filter(Book.all).sort_by{|book| book.author.surname}
     else
       @books = filter(Book.all).sort_by{|book| book[params[:sort]]}
     end
@@ -82,7 +84,7 @@ class BooksController < ApplicationController
     def filter(books)
       return books if filter_params.empty?
       title_results = books.where("lower(title) LIKE (?)", "%#{filter_params[:search_term]}%")
-      author_results = books.where("lower(author) LIKE (?)", "%#{filter_params[:search_term]}%")
+      author_results = books.joins(:author).where("lower(authors.first_name || ' ' || authors.surname) LIKE (?)", "%#{filter_params[:search_term]}%")
       subtitle_results = books.where("lower(subtitle) LIKE (?)", "%#{filter_params[:search_term]}%")
       blurb_results = books.where("lower(blurb) LIKE (?)", "%#{filter_params[:search_term]}%")
       publisher_results = books.where("lower(publisher) LIKE (?)", "%#{filter_params[:search_term]}%")

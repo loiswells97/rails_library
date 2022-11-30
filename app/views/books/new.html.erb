@@ -3,7 +3,7 @@
 <h1>Add a new book to the library</h1>
 
 <%= form_for(@book, :url => books_path, :method => 'post') do |f| %>
-  <%= render(:partial => 'form', :locals => {:f => f})%>
+  <%= render(:partial => 'form', :locals => {:f => f, :book => @book})%>
   <div>
     <%= f.submit("Create book")%>
   </div>
