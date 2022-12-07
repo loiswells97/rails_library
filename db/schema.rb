@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_171841) do
     t.string "has_been_read", default: "No"
     t.string "blurb"
     t.date "date_finished_reading"
+    t.string "author"
   end
 
   create_table "books_lists", id: false, force: :cascade do |t|
