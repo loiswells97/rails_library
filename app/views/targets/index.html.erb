@@ -2,12 +2,16 @@
 
 <h1>Reading Targets 🎯</h1>
 
+<%= link_to('🏹 Add a new target', new_target_path)%>
+
 <table>
   <tr>
     <th>Target</th>
     <th>Start date</th>
     <th>End date</th>
     <th>Progress</th>
+    <th>Status</th>
+    <th>Actions</th>
   </tr>
   <% @targets.each do |target|%>
   <tr>
@@ -15,6 +19,22 @@
     <td><%= target.start_date%></td>
     <td><%= target.end_date%></td>
     <td><%= "#{target_progress(target)}/#{target.target}"%></td>
+    <td>
+      <% if Date.today<=target.start_date%>
+        🗓
+      <% elsif target_progress(target) >= target.target %>
+        ✅
+      <% elsif Date.today<=target.end_date%>
+        🔄
+      <% else %>
+        ❌
+      <% end %>
+    </td>
+    <td>
+      <%# <%= link_to("🔍", book_path(book), :class => 'action show')%>
+      <%= link_to("✏️", edit_target_path(target), :class => 'action edit')%>
+      <%= link_to("🗑", delete_target_path(target), :class => 'action delete')%>
+    </td>
   </tr>
   <% end %>
 </table>

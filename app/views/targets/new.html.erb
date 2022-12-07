@@ -1,15 +1,9 @@
-<%= link_to('< Back to targets 🎯', lists_path, :class => 'back_button')%>
+<%= link_to('< Back to targets 🎯', targets_path, :class => 'back_button')%>
 
-<h1>Add a new reading target</h1>
+<h1>Add a new reading target 🏹</h1>
 
 <%= form_for(@target, :url => targets_path, :method => 'post') do |f| %>
-  <span>Read</span>
-  <%= f.number_field(:target)%>
-  <%= f.select(:target_type, ["books", "pages"], :prompt => 'Select type')%>
-  <span>starting on</span>
-  <%= f.date_field(:start_date)%>
-  <span>ending on</span>
-  <%= f.date_field(:end_date)%>
+<%= render(:partial => 'form', :locals => {:f => f})%>
   <div>
     <%= f.submit("Create target")%>
   </div>

@@ -1,0 +1,12 @@
+<h1>Delete target</h1>
+
+<p>Are you sure you want to delete this reading target?</p>
+<p><strong><%= "Read #{@target.target} #{@target.target_type} starting on #{@target.start_date} ending on #{@target.end_date}"%></strong></p>
+
+<%= form_for(@target, :method => 'delete') do |f| %>
+  <div>
+    <%= link_to("Cancel", targets_path)%>
+    <%= f.submit("Delete target")%>
+  </div>
+<% end %>
+

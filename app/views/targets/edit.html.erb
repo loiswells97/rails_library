@@ -1,0 +1,8 @@
+<h1>Add a new reading target 🏹</h1>
+
+<%= form_for(@target) do |f| %>
+<%= render(:partial => 'form', :locals => {:f => f})%>
+  <div>
+    <%= f.submit("Update target")%>
+  </div>
+<% end %>

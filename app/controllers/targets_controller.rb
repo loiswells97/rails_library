@@ -28,7 +28,7 @@ class TargetsController < ApplicationController
   def update
     @target = Target.find(params[:id])
     if @target.update(target_params)
-      redirect_to(target_path(@target))
+      redirect_to(targets_path)
     else
       render('edit')
     end
