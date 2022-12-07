@@ -27,12 +27,17 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = Book.new(book_params)
+    author = Author.find_by(book_params[:author_attributes])
+    if author.nil?
+      @book = Book.new(book_params)
+    else
+      @book = Book.new(book_params)
+      @book.author = author
+    end
+
     if @book.save
-      puts 'success'
       redirect_to(books_path)
     else
-      puts 'failed'
       render('new')
     end
   end
@@ -44,7 +49,18 @@ class BooksController < ApplicationController
 
   def update
     @book = Book.find(params[:id])
-    if @book.update(book_params)
+    author = @book.author
+    @book.attributes = book_params
+
+    if author.first_name != book_params[:author_attributes][:first_name] || author.surname != book_params[:author_attributes][:surname]
+      new_author = Author.find_by(book_params[:author_attributes])
+      @book.author = new_author unless new_author.nil?
+    end
+
+    if @book.save
+      if author.books.length == 0
+        author.destroy
+      end
       redirect_to(book_path(@book))
     else
       render('edit')
