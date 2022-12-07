@@ -2,10 +2,12 @@
 <%= f.text_field(:title) %>
 <p>Subtitle</p>
 <%= f.text_field(:subtitle) %>
-<p>Author First Name</p>
-<%= f.text_field(:author.first_name) %>
-<p>Author Surname</p>
-<%= f.text_field(:author.surname) %>
+<%= f.fields_for :author, @book.author || Author.new do |author| %>
+  <p>Author First Name</p>
+  <%= author.text_field(:first_name) %>
+  <p>Author Surname</p>
+  <%= author.text_field(:surname) %>
+<% end %>
 <p>Publisher</p>
 <%= f.text_field(:publisher) %>
 <p>Publication date</p>
@@ -18,7 +20,7 @@
 <%= f.text_area(:blurb, cols: 50, rows: 7)%>
 <p>Photo</p>
 <%= f.file_field(:photo) %>
-<p>Lists</p>
+<p>Lists</p> %>
 <%= f.collection_select :list_ids, @lists, :id, :title, {}, { multiple: true } %>
 <p>Read?</p>
 <%= f.radio_button :has_been_read, 'Yes'%>Yes

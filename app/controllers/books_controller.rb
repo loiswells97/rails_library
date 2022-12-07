@@ -29,8 +29,10 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
     if @book.save
+      puts 'success'
       redirect_to(books_path)
     else
+      puts 'failed'
       render('new')
     end
   end
@@ -64,7 +66,6 @@ class BooksController < ApplicationController
       params.require(:book).permit(
         :title,
         :subtitle,
-        :author,
         :publisher,
         :publication_date,
         :number_of_pages,
@@ -73,6 +74,7 @@ class BooksController < ApplicationController
         :blurb,
         :has_been_read,
         :date_finished_reading,
+        :author_attributes => [:first_name, :surname],
         list_ids: []
       )
     end
