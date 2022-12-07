@@ -12,7 +12,7 @@ class BooksController < ApplicationController
     elsif params[:sort] == 'author'
       @books = filter(Book.all).sort_by{|book| book.author.surname}
     else
-      @books = filter(Book.all).sort_by{|book| book[params[:sort]]}
+      @books = filter(Book.all).sort_by{|book| book[params[:sort]] || 0}
     end
 
   end
