@@ -1,6 +1,6 @@
-<p>Title</p>
+<p><%= label_tag('list[title]', 'Title')%></p>
 <%= f.text_field(:title) %>
-<p>Description</p>
+<p><%= label_tag('list[description]', 'Description') %></p>
 <%= f.text_area(:description) %>
-<p>Books</p>
+<p><%= label_tag('list[book_ids][]', 'Books') %></p>
 <%= f.collection_select :book_ids, @books, :id, :title, {}, { multiple: true } %>

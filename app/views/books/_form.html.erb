@@ -1,30 +1,30 @@
-<p>Title</p>
+<p><%= label_tag('book[title]', 'Title') %></p>
 <%= f.text_field(:title) %>
-<p>Subtitle</p>
+<p><%= label_tag('book[subtitle]', 'Subtitle') %></p>
 <%= f.text_field(:subtitle) %>
 <%= f.fields_for :author, @book.author || Author.new do |author| %>
-  <p>Author First Name</p>
+  <p><%= label_tag('book[author_attributes][first_name]', 'Author first name') %></p>
   <%= author.text_field(:first_name) %>
-  <p>Author Surname</p>
+  <p><%= label_tag('book[author_attributes][surname]', 'Author surname') %></p>
   <%= author.text_field(:surname) %>
 <% end %>
-<p>Publisher</p>
+<p><%= label_tag('book[publisher]', 'Publisher') %></p>
 <%= f.text_field(:publisher) %>
-<p>Publication date</p>
+<p><%= label_tag('book[publication_date]', 'Publication date') %></p>
 <%= f.number_field(:publication_date) %>
-<p>Year first published<p>
+<p><%= label_tag('book[year_first_published]', 'Year first published') %><p>
 <%= f.number_field(:year_first_published) %>
-<p>Number of pages</p>
+<p><%= label_tag('book[number_of_pages]', 'Number of pages') %></p>
 <%= f.number_field(:number_of_pages) %>
-<p>Blurb</p>
+<p><%= label_tag('book[blurb]', 'Blurb') %></p>
 <%= f.text_area(:blurb, cols: 50, rows: 7)%>
-<p>Photo</p>
+<p><%= label_tag('book[photo]', 'Photo') %></p>
 <%= f.file_field(:photo) %>
-<p>Lists</p> %>
+<p><%= label_tag('book[list_ids][]', 'Lists') %></p>
 <%= f.collection_select :list_ids, @lists, :id, :title, {}, { multiple: true } %>
-<p>Read?</p>
-<%= f.radio_button :has_been_read, 'Yes'%>Yes
-<%= f.radio_button :has_been_read, 'In progress'%>In progress
-<%= f.radio_button :has_been_read, 'No'%>No
-<p>Date finished reading</p>
+<p><%= label_tag('book[has_been_read]', 'Read?') %></p>
+<%= f.radio_button :has_been_read, 'Yes'%><%= label_tag('book[has_been_read][yes]', 'Yes') %>
+<%= f.radio_button :has_been_read, 'In progress'%><%= label_tag('book[has_been_read][in_progress]', 'In progress') %>
+<%= f.radio_button :has_been_read, 'No'%><%= label_tag('book[has_been_read][no]', 'No') %>
+<p><%= label_tag('book[date_finished_reading]', 'Date finished reading') %></p>
 <%= f.date_field(:date_finished_reading) %>
