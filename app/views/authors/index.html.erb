@@ -1,0 +1,6 @@
+<%= link_to('< Back to library 📚', books_path, :class => 'back_button')%>
+
+<h1>Authors 🪶</h1>
+<% @authors.each do |author| %>
+  <%= link_to "#{author.first_name} #{author.surname}", author_path(author)%></p>
+<% end %>

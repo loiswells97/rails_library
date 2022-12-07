@@ -49,3 +49,4 @@
 
 <%= link_to('✏️ Edit', edit_book_path(@book), :class => 'action edit') %>
 <%= link_to('🗑 Delete', delete_book_path(@book), :class => 'action delete') %>
+<%= link_to('🪶 More by this author', author_path(@book.author))%>
