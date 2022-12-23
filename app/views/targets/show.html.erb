@@ -1,0 +1,28 @@
+<%= link_to('< Back to targets 🎯', targets_path, :class => 'back_button')%>
+
+<h1>Target Details 🎯</h1>
+
+<h2>Goal</h2>
+<p>Read <%=@target.target%> <%=@target.target_type%> starting on <%=@target.start_date%> and ending on <%=@target.end_date%></p>
+
+<h2>Status</h2>
+<p>   
+  <% if Date.today<=@target.start_date%>
+    🗓 Upcoming
+  <% elsif target_progress(@target) >= @target.target %>
+    ✅ Completed
+  <% elsif Date.today<=@target.end_date%>
+    🔄 In progress
+  <% else %>
+    ❌ Failed
+  <% end %>
+</p>
+<p>You have read <%=target_progress(@target)%> out of <%=@target.target%> <%=@target.target_type%> towards this target. That's <%=(target_progress(@target).to_f/@target.target)*100%>% of the <%=@target.target_type%> read.</p>
+
+<h2>Books contributing towards this target</h2>
+
+<%= render(:partial => 'books/table', :locals => {:books => @books, :search_term => @search_term})%>
+
+<%= link_to('✏️ Edit', edit_target_path(@target), :class => 'action edit') %>
+<%= link_to('🗑 Delete', delete_target_path(@target), :class => 'action delete') %>
+

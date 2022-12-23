@@ -6,6 +6,9 @@ class TargetsController < ApplicationController
 
   def show
     @target = Target.find(params[:id])
+    @books = Book.all.where("date_finished_reading > ?", @target.start_date).and(
+      Book.all.where("date_finished_reading < ?", @target.end_date)
+    )
   end
 
   def new
