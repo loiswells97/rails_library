@@ -4,15 +4,6 @@
 
 <h2>Books</h2>
 
-<% @author.books.each do |book|%>
-  <div style='display: inline-block; text-align: center'>
-    <% if book.photo_blob.nil?%>
-      <%= image_tag '/book.png', style: "height: 300px; display: block;"%>
-    <% else %>
-      <%= render(:partial => 'books/photo', :locals => {:book => book}) unless book.photo_blob.nil?%>
-    <% end %>
-    <%= link_to(book.title, book_path(book))%>
-  </div>
-<% end %>
+<%= render(:partial => 'books/gallery', :locals => {books: @author.books})%>
 
 

@@ -4,16 +4,16 @@
 
 <p>Looking for something to read next? Look no further...</p>
 
-<h2>Based on your recent reads</h2>
+<h2>Based on your current and recent reads 🗓📚✅</h2>
 
-<% @recent_recommendations.each do |book|%>
-  <p><%= book.title%></p>
-<% end %>
+<%= render(:partial => 'gallery', :locals => {books: @recent_recommendations})%>
 
-<h2>Based on your favourites</h2>
+<h2>Based on your favourites 🌟</h2>
 
-<% @favourite_recommendations.each do |book|%>
-  <p><%= book.title%></p>
-<% end %>
+<%= render(:partial => 'gallery', :locals => {books: @favourite_recommendations})%>
 
-<h2>Something completely different</h2>
+<h2>Timely rereads ♻️</h2>
+<%= render(:partial => 'gallery', :locals => {books: @reread_recommendations})%>
+
+<h2>Something completely different 🧐</h2>
+<%= render(:partial => 'gallery', :locals => {books: @rouge_recommendations})%>

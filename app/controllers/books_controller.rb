@@ -81,9 +81,12 @@ class BooksController < ApplicationController
 
   def recommendations
     recent_books = Book.where(date_finished_reading: Date.today-30..Date.today)
-    @recent_recommendations = related_books(recent_books).sample(5)
+    current_books = Book.where(has_been_read: 'In progress')
+    @recent_recommendations = weighted_sample(related_books(recent_books+current_books, read_status='No'), 5)
     favourite_books = List.find_by(title: 'Favourites 🌟').books
-    @favourite_recommendations = related_books(favourite_books).sample(5)
+    @favourite_recommendations = weighted_sample(related_books(favourite_books, read_status='No'), 5)
+    @rouge_recommendations = rogue_suggestions.sample(5)
+    @reread_recommendations = weighted_sample(rereads(recent_books+current_books), 5)
 
   end
 
@@ -120,18 +123,38 @@ class BooksController < ApplicationController
       (title_results + author_results + subtitle_results + list_results + blurb_results + publisher_results).uniq
     end
 
-    def related_books(books)
+    def related_books(books, read_status=['Yes', 'In progress', 'No'])
       authors = books.map{|book| book.author}
       lists = []
       books.each{|book| lists.append(*(book.lists))}
-      author_recommendations = Book.where(author: [authors], has_been_read: 'No')
+      author_recommendations = Book.where(author: [authors], has_been_read: read_status)
       list_recommendations = []
       lists.each do |list|
-        list.books.where(has_been_read: 'No').each do |book|
+        list.books.where(has_been_read: read_status).each do |book|
           list_recommendations.append(book)
         end
       end
-      return (author_recommendations + list_recommendations).uniq
+      return (author_recommendations + list_recommendations)
+    end
+
+    def rogue_suggestions
+      non_rogue_books = related_books(Book.where(has_been_read: ['Yes', 'In progress']))
+      return Book.all - non_rogue_books
+    end
+
+    def rereads(books)
+      rereads = related_books(books, read_status='Yes')
+      return rereads.filter{|book| book.date_finished_reading && book.date_finished_reading < 1.year.ago}
+    end
+
+    def weighted_sample(array, n)
+      array.each{|book| puts(book.title)}
+      result = []
+      while result.length < [array.uniq.length, n].min
+        random_sample = array.sample()
+        result.append random_sample unless result.include?(random_sample)
+      end
+      result.sort_by{|element| array.count(element)}.reverse
     end
 
 end
