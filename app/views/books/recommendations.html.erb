@@ -1,0 +1,19 @@
+<%= link_to('< Back to library 📚', books_path, :class => 'back_button')%>
+
+<h1>Recommendations 💡</h1>
+
+<p>Looking for something to read next? Look no further...</p>
+
+<h2>Based on your recent reads</h2>
+
+<% @recent_recommendations.each do |book|%>
+  <p><%= book.title%></p>
+<% end %>
+
+<h2>Based on your favourites</h2>
+
+<% @favourite_recommendations.each do |book|%>
+  <p><%= book.title%></p>
+<% end %>
+
+<h2>Something completely different</h2>

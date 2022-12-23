@@ -79,6 +79,14 @@ class BooksController < ApplicationController
     redirect_to(books_path)
   end
 
+  def recommendations
+    recent_books = Book.where(date_finished_reading: Date.today-30..Date.today)
+    @recent_recommendations = related_books(recent_books).sample(5)
+    favourite_books = List.find_by(title: 'Favourites 🌟').books
+    @favourite_recommendations = related_books(favourite_books).sample(5)
+
+  end
+
   private
     def book_params
       params.require(:book).permit(
@@ -110,6 +118,20 @@ class BooksController < ApplicationController
       publisher_results = books.where("lower(publisher) LIKE (?)", "%#{filter_params[:search_term]}%")
       list_results = books.joins(:lists).where("lower(lists.title) LIKE (?)", "%#{filter_params[:search_term]}%")
       (title_results + author_results + subtitle_results + list_results + blurb_results + publisher_results).uniq
+    end
+
+    def related_books(books)
+      authors = books.map{|book| book.author}
+      lists = []
+      books.each{|book| lists.append(*(book.lists))}
+      author_recommendations = Book.where(author: [authors], has_been_read: 'No')
+      list_recommendations = []
+      lists.each do |list|
+        list.books.where(has_been_read: 'No').each do |book|
+          list_recommendations.append(book)
+        end
+      end
+      return (author_recommendations + list_recommendations).uniq
     end
 
 end
