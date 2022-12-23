@@ -55,6 +55,8 @@ class BooksController < ApplicationController
     if author.first_name != book_params[:author_attributes][:first_name] || author.surname != book_params[:author_attributes][:surname]
       new_author = Author.find_by(book_params[:author_attributes])
       @book.author = new_author unless new_author.nil?
+    else
+      @book.author = author
     end
 
     if @book.save
