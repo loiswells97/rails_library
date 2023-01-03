@@ -1,6 +1,13 @@
 <%= link_to('< Back to library 📚', books_path, :class => 'back_button')%>
 
 <h1>Authors 🪶</h1>
+
+<%= form_for(form_for_object_from_param(:filter), method: :get, url: authors_path) do |f|%>
+  <%= f.text_field(:search_term)%>
+  <%= content_tag(:button, 'Search', type: 'submit')%>
+  <%= link_to('Clear', authors_path)%>
+<% end %>
+
 <% @authors.each do |author| %>
-  <%= link_to "#{author.first_name} #{author.surname}", author_path(author)%></p>
+  <p><%= link_to "#{author.first_name} #{author.surname}", author_path(author)%></p>
 <% end %>
