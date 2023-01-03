@@ -10,7 +10,17 @@ The app is set up by running `docker compose build` followed by `docker compose 
 
 ### Books
 
-Information about books can be created, read, updated and deleted. Books can also be searched and added to lists. 
+Information about books can be created, read, updated and deleted. Books can also be searched and added to lists.
+
+#### Recommendations
+
+The app can provide book recommendations based on four different categories:
+- Current and recent reads
+- Books marked as favourites
+- Rereads related to your current and recent reads
+- Books unrelated to anything read within a specified time period
+
+Books are said to be related if they are by the same author or appear on the same list. Recommendations can be customised in `Settings` to allow the user to define how long books should be considered a recent read, how soon they would reread a book and the time period for unrelated recommendations.
 
 ### Authors
 
