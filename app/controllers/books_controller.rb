@@ -80,7 +80,8 @@ class BooksController < ApplicationController
   end
 
   def recommendations
-    recent_books = Book.where(date_finished_reading: Date.today-30..Date.today)
+    recent_duration = cookies[:recent_duration].to_i || 1
+    recent_books = Book.where(date_finished_reading: recent_duration.month.ago..Date.today)
     current_books = Book.where(has_been_read: 'In progress')
     @recent_recommendations = weighted_sample(related_books(recent_books+current_books, read_status='No'), 5)
     favourite_books = List.find_by(title: 'Favourites 🌟').books
@@ -97,6 +98,7 @@ class BooksController < ApplicationController
         :subtitle,
         :publisher,
         :publication_date,
+        :trim,
         :number_of_pages,
         :photo,
         :year_first_published,
@@ -138,13 +140,21 @@ class BooksController < ApplicationController
     end
 
     def rogue_suggestions
-      non_rogue_books = related_books(Book.where(has_been_read: ['Yes', 'In progress']))
+      read_or_in_progress_books = Book.where(has_been_read: ['Yes', 'In progress'])
+      if cookies[:rogue_wait].to_i
+        rogue_wait = cookies[:rogue_wait].to_i
+        books_read_within_timeframe = read_or_in_progress_books.filter{|book| !book.date_finished_reading || book.date_finished_reading > rogue_wait.year.ago}
+        non_rogue_books = related_books(books_read_within_timeframe) + read_or_in_progress_books
+      else
+        non_rogue_books = related_books(read_or_in_progress_books)
+      end
       return Book.all - non_rogue_books
     end
 
     def rereads(books)
       rereads = related_books(books, read_status='Yes')
-      return rereads.filter{|book| book.date_finished_reading && book.date_finished_reading < 1.year.ago}
+      reread_wait = cookies[:reread_wait].to_i || 1
+      return rereads.filter{|book| book.date_finished_reading && book.date_finished_reading < reread_wait.year.ago}
     end
 
     def weighted_sample(array, n)

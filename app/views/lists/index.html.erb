@@ -22,6 +22,7 @@
       <td><%= @recent_count %></td>
       <td>
         <%= link_to("🔍", recent_lists_path, :class => 'action show')%>
+        <%= link_to("⚙️", '/settings', :class => 'action edit')%>
       </td>
     </tr>
   <% @lists.each do |list| %>

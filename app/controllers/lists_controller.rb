@@ -2,7 +2,8 @@ class ListsController < ApplicationController
 
   def index
     @lists = List.all.order(is_default: :desc, title: :asc)
-    @recent_count = Book.where(date_finished_reading: Date.today-30..Date.today).length
+    recent_duration = cookies[:recent_duration].to_i || 1
+    @recent_count = Book.where(date_finished_reading: recent_duration.month.ago..Date.today).length
     @current_count = Book.where(has_been_read: 'In progress').length
   end
 
@@ -53,7 +54,10 @@ class ListsController < ApplicationController
   end
 
   def recent
-    @books = Book.where(date_finished_reading: Date.today-30..Date.today)
+    recent_duration = cookies[:recent_duration].to_i || 1
+    # @recent_duration_string = "#{recent_duration} month#{recent_duration > 1 ? 's' : nil}"
+    @recent_duration_string = recent_duration == 1 ? 'month' : "#{recent_duration} months"
+    @books = Book.where(date_finished_reading: recent_duration.month.ago..Date.today)
   end
 
   private

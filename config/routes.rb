@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   end
 
   resources :authors
+
+  get 'settings', to: 'settings#edit'
+  post 'settings/update', to: 'settings#update'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

@@ -14,7 +14,9 @@
 <%= f.number_field(:publication_date) %>
 <p><%= label_tag('book[year_first_published]', 'Year first published') %><p>
 <%= f.number_field(:year_first_published) %>
-<p><%= label_tag('book[number_of_pages]', 'Number of pages') %></p>
+<p><%= label_tag('book[trim]', 'Trim') %><p>
+<%= f.select(:trim, options_for_select(['Hardback', 'Paperback', 'Booklet', 'eBook'], @book.trim), {include_blank: true})%>
+<p><%= label_tag('book[number_of_pages]', 'Number of pages (in print version)') %></p>
 <%= f.number_field(:number_of_pages) %>
 <p><%= label_tag('book[blurb]', 'Blurb') %></p>
 <%= f.text_area(:blurb, cols: 50, rows: 7)%>

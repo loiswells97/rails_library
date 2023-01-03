@@ -1,0 +1,17 @@
+<%= link_to('< Back to library 📚', books_path, :class => 'back_button')%>
+
+<h1>Settings ⚙️</h1>
+
+<%= form_for(:settings, as: :post,  url: 'settings/update') do |f| %>
+  <p><%= label_tag('settings[recent_duration]', 'How many months should your recent reads cover?')%></p>
+  <%= f.select(:recent_duration, options_for_select([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], @current_settings[:recent_duration]))%>
+  <p><%= label_tag('settings[reread_wait]', 'After how many years would you reread a book?')%></p>
+  <%= f.select(:reread_wait, options_for_select([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], @current_settings[:reread_wait]))%>
+  <p><%= label_tag('settings[recent_duration]', 'After how many years should a book\'s related books be recommended as something completely different?')%></p>
+  <%= f.select(:rogue_wait, options_for_select(['Never', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], @current_settings[:rogue_wait]))%>
+  <%= hidden_field_tag :previous_request, request.referer %>
+  <div>
+    <%= f.submit("Save")%>
+  </div>
+<% end %>
+
