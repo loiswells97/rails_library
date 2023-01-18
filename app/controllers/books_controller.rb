@@ -89,6 +89,7 @@ class BooksController < ApplicationController
     @favourite_recommendations = weighted_sample(related_books(favourite_books, read_status='No'), 5)
     @rouge_recommendations = rogue_suggestions.sample(5)
     @reread_recommendations = weighted_sample(rereads(recent_books+current_books), 5)
+    @favourites_list = List.find_by(title: 'Favourites 🌟')
 
   end
 

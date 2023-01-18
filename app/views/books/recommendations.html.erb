@@ -9,7 +9,7 @@
 
 <%= render(:partial => 'gallery', :locals => {books: @recent_recommendations, empty_message: "There are no recommendation related to your current and recent reads right now"})%>
 
-<h2>Based on your favourites 🌟</h2>
+<h2>Based on your favourites 🌟 <%= link_to("(View favourites)", list_path(@favourites_list.id))%></h2>
 <%= render(:partial => 'gallery', :locals => {books: @favourite_recommendations, empty_message: 'There are no recommendations related to your favourites right now'})%>
 
 <h2>Timely rereads ♻️</h2>
