@@ -19,7 +19,8 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
-    @related_books = related_books([@book]).uniq - [@book]
+    related = related_books([@book])
+    @related_books = (related.uniq - [@book]).sort_by{|book| related.count(book)}.reverse
   end
 
   def new
@@ -139,8 +140,9 @@ class BooksController < ApplicationController
       subtitle_results = books.where("lower(subtitle) LIKE (?)", "%#{filter_params[:search_term]}%")
       blurb_results = books.where("lower(blurb) LIKE (?)", "%#{filter_params[:search_term]}%")
       publisher_results = books.where("lower(publisher) LIKE (?)", "%#{filter_params[:search_term]}%")
+      series_results = books.joins(:series).where("lower(series.title) LIKE (?)", "%#{filter_params[:search_term]}%")
       list_results = books.joins(:lists).where("lower(lists.title) LIKE (?)", "%#{filter_params[:search_term]}%")
-      (title_results + author_results + subtitle_results + list_results + blurb_results + publisher_results).uniq
+      (title_results + author_results + series_results + subtitle_results + list_results + blurb_results + publisher_results).uniq
     end
 
     def related_books(books, read_status=['Yes', 'In progress', 'No'])
