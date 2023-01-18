@@ -21,9 +21,8 @@
       end %></td>
       <td>
         <%= link_to("🔍", book_path(book), :class => 'action show')%>
-        <%= link_to("✏️", edit_book_path(book), :class => 'action edit')%>
-        <%= link_to("🗑", delete_book_path(book), :class => 'action delete')%>
-
+        <%= link_to("✏️", edit_book_path(book), :class => 'action edit') %>
+        <%= link_to("🗑", delete_book_path(book), :class => 'action delete') %>
       </td>
     </tr>
   <% end %>
