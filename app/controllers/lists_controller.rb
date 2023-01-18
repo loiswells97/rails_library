@@ -1,5 +1,4 @@
 class ListsController < ApplicationController
-  STATUS_SORT_ORDER = ['Yes', 'In progress', 'No']
 
   def index
     @lists = List.all.order(is_default: :desc, title: :asc)
@@ -10,7 +9,7 @@ class ListsController < ApplicationController
 
   def show
     @list = List.find(params[:id])
-    @books = sort_books(@list.books)
+    @books = helpers.sort_books(@list.books, params[:sort])
   end
 
   def new
@@ -53,30 +52,18 @@ class ListsController < ApplicationController
 
   def current
     current_books = Book.where(has_been_read: 'In progress')
-    @books = sort_books(current_books)
+    @books = helpers.sort_books(current_books, params[:sort])
   end
 
   def recent
     recent_duration = cookies[:recent_duration].to_i || 1
     @recent_duration_string = recent_duration == 1 ? 'month' : "#{recent_duration} months"
     recent_books = Book.where(date_finished_reading: recent_duration.month.ago..Date.today)
-    @books = sort_books(recent_books)
+    @books = helpers.sort_books(recent_books, params[:sort])
   end
 
   private
     def list_params
       params.require(:list).permit(:title, :description, book_ids: [])
-    end
-
-    def sort_books(books)
-      if params[:sort].nil?
-        return books.sort_by{|book| book[:title]}
-      elsif params[:sort] == 'has_been_read'
-        return books.sort_by{|book| STATUS_SORT_ORDER.find_index(book[params[:sort]])}
-      elsif params[:sort] == 'author'
-        return books.sort_by{|book| book.author.surname}
-      else
-        return books.sort_by{|book| book[params[:sort]] || 0}
-      end
-    end    
+    end   
 end
