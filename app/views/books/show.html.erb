@@ -16,6 +16,16 @@
   <span><%= "#{@book.author.first_name} #{@book.author.surname}" %></span>
 </div>
 <div>
+  <span><strong>Series:</strong></span>
+  <% if !@book.series.nil? && @book.series_number %>
+    <span><%= "##{@book.series_number} in #{@book.series.title}" %></span>
+  <% elsif !@book.series.nil? %>
+    <span><%= @book.series.title %></span>
+  <% else %>
+    <span>None</span>
+  <% end %>
+</div>
+<div>
   <span><strong>Publisher:</strong></span>
   <span><%= @book.publisher %></span>
 </div>

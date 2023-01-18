@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   end
 
   resources :authors
+  resources :series
 
   get 'settings', to: 'settings#edit'
   post 'settings/update', to: 'settings#update'

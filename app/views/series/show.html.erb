@@ -1,0 +1,9 @@
+<%= link_to('< Back to series 📕📗📘', '/series', :class => 'back_button')%>
+
+<h1><%= @series.title %></h1>
+
+<h2>Books</h2>
+
+<%= render(:partial => 'books/gallery', :locals => {books: @series.books})%>
+
+
