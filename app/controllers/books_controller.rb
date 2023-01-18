@@ -62,11 +62,9 @@ class BooksController < ApplicationController
     end
 
     if series.nil? || series.title != book_params[:series_attributes][:title]
-      puts 'THE SERIES CHANGED!!!'
       new_series = Series.find_by(book_params[:series_attributes])
       @book.series = new_series unless new_series.nil?
     else
-      puts 'THE SERIES HASN\'T CHANGED'
       @book.series = series
     end
 
@@ -178,7 +176,6 @@ class BooksController < ApplicationController
     end
 
     def weighted_sample(array, n)
-      array.each{|book| puts(book.title)}
       result = []
       while result.length < [array.uniq.length, n].min
         random_sample = array.sample()
