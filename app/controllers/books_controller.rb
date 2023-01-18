@@ -154,7 +154,17 @@ class BooksController < ApplicationController
           list_recommendations.append(book)
         end
       end
-      return (author_recommendations + list_recommendations)
+      series_list = books.map{|book| book.series}
+      series_recommendations = []
+      series_list.each do |series|
+        if !series.nil?
+          series.books.where(has_been_read: read_status).each do |book|
+            series_recommendations.append(book)
+          end
+        end
+      end
+
+      return (author_recommendations + series_recommendations + list_recommendations)
     end
 
     def rogue_suggestions
