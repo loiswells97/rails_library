@@ -1,4 +1,5 @@
 class TargetsController < ApplicationController
+  STATUS_SORT_ORDER = ['Yes', 'In progress', 'No']
 
   def index
     @targets = Target.all
@@ -6,9 +7,10 @@ class TargetsController < ApplicationController
 
   def show
     @target = Target.find(params[:id])
-    @books = Book.all.where("date_finished_reading > ?", @target.start_date).and(
+    target_books = Book.all.where("date_finished_reading > ?", @target.start_date).and(
       Book.all.where("date_finished_reading < ?", @target.end_date)
     )
+    @books = sort_books(target_books)
   end
 
   def new
@@ -62,5 +64,17 @@ class TargetsController < ApplicationController
   private
     def target_params
       params.require(:target).permit(:target_type, :target, :start_date, :end_date)
-    end  
+    end
+    
+    def sort_books(books)
+      if params[:sort].nil?
+        return books.sort_by{|book| book[:title]}
+      elsif params[:sort] == 'has_been_read'
+        return books.sort_by{|book| STATUS_SORT_ORDER.find_index(book[params[:sort]])}
+      elsif params[:sort] == 'author'
+        return books.sort_by{|book| book.author.surname}
+      else
+        return books.sort_by{|book| book[params[:sort]] || 0}
+      end
+    end
 end
