@@ -141,7 +141,7 @@ class BooksController < ApplicationController
 
     def rogue_suggestions
       read_or_in_progress_books = Book.where(has_been_read: ['Yes', 'In progress'])
-      if cookies[:rogue_wait].to_i
+      if cookies[:rogue_wait].to_i > 0
         rogue_wait = cookies[:rogue_wait].to_i
         books_read_within_timeframe = read_or_in_progress_books.filter{|book| !book.date_finished_reading || book.date_finished_reading > rogue_wait.year.ago}
         non_rogue_books = related_books(books_read_within_timeframe) + read_or_in_progress_books
