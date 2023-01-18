@@ -2,6 +2,12 @@
 <%= f.text_field(:title) %>
 <p><%= label_tag('book[subtitle]', 'Subtitle') %></p>
 <%= f.text_field(:subtitle) %>
+<%= f.fields_for :series, @book.series || Series.new do |series| %>
+  <p><%= label_tag('book[series_attributes][title]', 'Series title') %></p>
+  <%= series.text_field(:title) %>
+<% end %>
+<p><%= label_tag('book[series_number]', 'Number in series') %></p>
+  <%= f.number_field(:series_number) %>
 <%= f.fields_for :author, @book.author || Author.new do |author| %>
   <p><%= label_tag('book[author_attributes][first_name]', 'Author first name') %></p>
   <%= author.text_field(:first_name) %>

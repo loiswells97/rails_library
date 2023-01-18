@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_03_094555) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_18_123227) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -60,7 +60,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_03_094555) do
     t.date "date_finished_reading"
     t.integer "author_id"
     t.string "trim"
+    t.integer "series_id"
+    t.integer "series_number"
     t.index ["author_id"], name: "index_books_on_author_id"
+    t.index ["series_id"], name: "index_books_on_series_id"
   end
 
   create_table "books_lists", id: false, force: :cascade do |t|
@@ -76,6 +79,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_03_094555) do
     t.boolean "is_default", default: false
   end
 
+  create_table "series", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "targets", force: :cascade do |t|
     t.string "target_type"
     t.integer "target"
@@ -88,4 +97,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_03_094555) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "books", "authors"
+  add_foreign_key "books", "series"
 end

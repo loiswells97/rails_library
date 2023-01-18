@@ -28,13 +28,13 @@ class BooksController < ApplicationController
   end
 
   def create
+    @book = Book.new(book_params)
+
     author = Author.find_by(book_params[:author_attributes])
-    if author.nil?
-      @book = Book.new(book_params)
-    else
-      @book = Book.new(book_params)
-      @book.author = author
-    end
+    @book.author = author.nil? ? @book.author : author
+
+    series = Series.find_by(book_params[:series_attributes])
+    @book.series = series.nil? ? @book.series : series
 
     if @book.save
       redirect_to(books_path)
@@ -51,6 +51,7 @@ class BooksController < ApplicationController
   def update
     @book = Book.find(params[:id])
     author = @book.author
+    series = @book.series
     @book.attributes = book_params
 
     if author.first_name != book_params[:author_attributes][:first_name] || author.surname != book_params[:author_attributes][:surname]
@@ -60,10 +61,24 @@ class BooksController < ApplicationController
       @book.author = author
     end
 
+    if series.nil? || series.title != book_params[:series_attributes][:title]
+      puts 'THE SERIES CHANGED!!!'
+      new_series = Series.find_by(book_params[:series_attributes])
+      @book.series = new_series unless new_series.nil?
+    else
+      puts 'THE SERIES HASN\'T CHANGED'
+      @book.series = series
+    end
+
     if @book.save
       if author.books.length == 0
         author.destroy
       end
+
+      if !series.nil? && series.books.length == 0
+        series.destroy
+      end
+      
       redirect_to(book_path(@book))
     else
       render('edit')
@@ -96,8 +111,10 @@ class BooksController < ApplicationController
   private
     def book_params
       params.require(:book).permit(
+        :id,
         :title,
         :subtitle,
+        :series_number,
         :publisher,
         :publication_date,
         :trim,
@@ -107,7 +124,8 @@ class BooksController < ApplicationController
         :blurb,
         :has_been_read,
         :date_finished_reading,
-        :author_attributes => [:first_name, :surname],
+        :author_attributes => [:first_name, :surname, :id],
+        :series_attributes => [:title],
         list_ids: []
       )
     end
