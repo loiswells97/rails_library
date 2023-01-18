@@ -1,10 +1,14 @@
-<% books.each do |book|%>
-  <div style='display: inline-block; text-align: center'>
-    <% if book.photo_blob.nil?%>
-      <%= image_tag '/book.png', style: "height: 300px; display: block;"%>
-    <% else %>
-      <%= render(:partial => 'books/photo', :locals => {:book => book}) unless book.photo_blob.nil?%>
-    <% end %>
-    <%= link_to(book.title, book_path(book))%>
-  </div>
+<% if books.length > 0 %>
+  <% books.each do |book|%>
+    <div style='display: inline-block; text-align: center'>
+      <% if book.photo_blob.nil?%>
+        <%= image_tag '/book.png', style: "height: 300px; display: block;"%>
+      <% else %>
+        <%= render(:partial => 'books/photo', :locals => {:book => book}) unless book.photo_blob.nil?%>
+      <% end %>
+      <%= link_to(book.title, book_path(book))%>
+    </div>
+  <% end %>
+<% else %>
+  <p><%= empty_message %></p>
 <% end %>

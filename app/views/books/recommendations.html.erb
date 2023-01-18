@@ -7,14 +7,13 @@
 
 <h2>Based on your current and recent reads 🗓📚✅</h2>
 
-<%= render(:partial => 'gallery', :locals => {books: @recent_recommendations})%>
+<%= render(:partial => 'gallery', :locals => {books: @recent_recommendations, empty_message: "There are no recommendation related to your current and recent reads right now"})%>
 
 <h2>Based on your favourites 🌟</h2>
-
-<%= render(:partial => 'gallery', :locals => {books: @favourite_recommendations})%>
+<%= render(:partial => 'gallery', :locals => {books: @favourite_recommendations, empty_message: 'There are no recommendations related to your favourites right now'})%>
 
 <h2>Timely rereads ♻️</h2>
-<%= render(:partial => 'gallery', :locals => {books: @reread_recommendations})%>
+<%= render(:partial => 'gallery', :locals => {books: @reread_recommendations, empty_message: 'There are no reread recommendations right now'})%>
 
 <h2>Something completely different 🧐</h2>
-<%= render(:partial => 'gallery', :locals => {books: @rouge_recommendations})%>
+<%= render(:partial => 'gallery', :locals => {books: @rouge_recommendations, empty_message: 'There are no recommendations for something different right now'})%>

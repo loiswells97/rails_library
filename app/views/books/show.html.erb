@@ -40,6 +40,11 @@
   <span><%= @book.blurb %></span>
 </div>
 <div>
+<div>
+  <span><strong>Lists:</strong></span>
+  <span><%= @book.lists.length > 0 ? @book.lists.map{|list| list.title}.join(', ') : 'None' %></span>
+</div>
+<div>
   <span><strong>Read?:</strong></span>
   <span><%= @book.has_been_read %></span>
 </div>
@@ -54,3 +59,6 @@
 <%= link_to('✏️ Edit', edit_book_path(@book), :class => 'action edit') %>
 <%= link_to('🗑 Delete', delete_book_path(@book), :class => 'action delete') %>
 <%= link_to('🪶 More by this author', author_path(@book.author))%>
+
+<h2>Related books</h2>
+<%= render(:partial => 'gallery', :locals => {books: @related_books, empty_message: "You don't currently have any books related to #{@book.title}."})%>

@@ -19,6 +19,7 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
+    @related_books = related_books([@book]).uniq - [@book]
   end
 
   def new
