@@ -56,11 +56,11 @@ class BooksController < ApplicationController
       @book.author = author
     end
 
-    if series.nil? || series.title != book_params[:series_attributes][:title]
+    if @book.series.title == ''
+      @book.series = nil
+    elsif series.nil? || series.title != book_params[:series_attributes][:title]
       new_series = Series.find_by(book_params[:series_attributes])
       @book.series = new_series unless new_series.nil?
-    elsif @book.series.title == ''
-      @book.series = nil
     else
       @book.series = series
     end
@@ -100,7 +100,6 @@ class BooksController < ApplicationController
     @rouge_recommendations = helpers.rogue_suggestions.sample(5)
     @reread_recommendations = helpers.weighted_sample(helpers.rereads(recent_books+current_books), 5)
     @favourites_list = List.find_by(title: 'Favourites 🌟')
-
   end
 
   private
