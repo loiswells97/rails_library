@@ -35,7 +35,11 @@ class BooksController < ApplicationController
     @book.author = author.nil? ? @book.author : author
 
     series = Series.find_by(book_params[:series_attributes])
-    @book.series = series.nil? ? @book.series : series
+    if @book.series.title == ''
+      @book.series = nil
+    elsif !series.nil?
+      @book.series = series
+    end
 
     if @book.save
       redirect_to(books_path)
@@ -65,6 +69,8 @@ class BooksController < ApplicationController
     if series.nil? || series.title != book_params[:series_attributes][:title]
       new_series = Series.find_by(book_params[:series_attributes])
       @book.series = new_series unless new_series.nil?
+    elsif @book.series.title == ''
+      @book.series = nil
     else
       @book.series = series
     end
