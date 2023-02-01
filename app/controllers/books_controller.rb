@@ -9,7 +9,7 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
-    related = related_books([@book])
+    related = helpers.related_books([@book])
     @related_books = (related.uniq - [@book]).sort_by{|book| related.count(book)}.reverse
   end
 
@@ -94,11 +94,11 @@ class BooksController < ApplicationController
     recent_duration = cookies[:recent_duration].to_i || 1
     recent_books = Book.where(date_finished_reading: recent_duration.month.ago..Date.today)
     current_books = Book.where(has_been_read: 'In progress')
-    @recent_recommendations = weighted_sample(related_books(recent_books+current_books, read_status='No'), 5)
+    @recent_recommendations = helpers.weighted_sample(helpers.related_books(recent_books+current_books, read_status='No'), 5)
     favourite_books = List.find_by(title: 'Favourites 🌟').books
-    @favourite_recommendations = weighted_sample(related_books(favourite_books, read_status='No'), 5)
-    @rouge_recommendations = rogue_suggestions.sample(5)
-    @reread_recommendations = weighted_sample(rereads(recent_books+current_books), 5)
+    @favourite_recommendations = helpers.weighted_sample(helpers.related_books(favourite_books, read_status='No'), 5)
+    @rouge_recommendations = helpers.rogue_suggestions.sample(5)
+    @reread_recommendations = helpers.weighted_sample(helpers.rereads(recent_books+current_books), 5)
     @favourites_list = List.find_by(title: 'Favourites 🌟')
 
   end
@@ -128,56 +128,4 @@ class BooksController < ApplicationController
     def filter_params
       params.fetch(:filter, {}).permit(:search_term)
     end
-
-    def related_books(books, read_status=['Yes', 'In progress', 'No'])
-      authors = books.map{|book| book.author}
-      lists = []
-      books.each{|book| lists.append(*(book.lists))}
-      author_recommendations = Book.where(author: [authors], has_been_read: read_status)
-      list_recommendations = []
-      lists.each do |list|
-        list.books.where(has_been_read: read_status).each do |book|
-          list_recommendations.append(book)
-        end
-      end
-      series_list = books.map{|book| book.series}
-      series_recommendations = []
-      series_list.each do |series|
-        if !series.nil?
-          series.books.where(has_been_read: read_status).each do |book|
-            series_recommendations.append(book)
-          end
-        end
-      end
-
-      return (author_recommendations + series_recommendations + list_recommendations)
-    end
-
-    def rogue_suggestions
-      read_or_in_progress_books = Book.where(has_been_read: ['Yes', 'In progress'])
-      if cookies[:rogue_wait].to_i > 0
-        rogue_wait = cookies[:rogue_wait].to_i
-        books_read_within_timeframe = read_or_in_progress_books.filter{|book| !book.date_finished_reading || book.date_finished_reading > rogue_wait.year.ago}
-        non_rogue_books = related_books(books_read_within_timeframe) + read_or_in_progress_books
-      else
-        non_rogue_books = related_books(read_or_in_progress_books)
-      end
-      return Book.all - non_rogue_books
-    end
-
-    def rereads(books)
-      rereads = related_books(books, read_status='Yes')
-      reread_wait = cookies[:reread_wait].to_i || 1
-      return rereads.filter{|book| book.date_finished_reading && book.date_finished_reading < reread_wait.year.ago}
-    end
-
-    def weighted_sample(array, n)
-      result = []
-      while result.length < [array.uniq.length, n].min
-        random_sample = array.sample()
-        result.append random_sample unless result.include?(random_sample)
-      end
-      result.sort_by{|element| array.count(element)}.reverse
-    end
-
 end
