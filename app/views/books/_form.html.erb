@@ -29,7 +29,11 @@
 <p><%= label_tag('book[photo]', 'Photo') %></p>
 <%= f.file_field(:photo) %>
 <p><%= label_tag('book[list_ids][]', 'Lists') %></p>
-<%= f.collection_select :list_ids, @lists, :id, :title, {}, { multiple: true } %>
+<%= f.collection_check_boxes :list_ids, @lists, :id, :title, {}, { multiple: true } do |box| %>
+  <p>
+    <%= box.label { box.check_box + box.text }%>
+  </p>
+<% end %>
 <p><%= label_tag('book[has_been_read]', 'Read?') %></p>
 <%= f.radio_button :has_been_read, 'Yes'%><%= label_tag('book[has_been_read][yes]', 'Yes') %>
 <%= f.radio_button :has_been_read, 'In progress'%><%= label_tag('book[has_been_read][in_progress]', 'In progress') %>

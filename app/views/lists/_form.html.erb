@@ -3,4 +3,8 @@
 <p><%= label_tag('list[description]', 'Description') %></p>
 <%= f.text_area(:description) %>
 <p><%= label_tag('list[book_ids][]', 'Books') %></p>
-<%= f.collection_select :book_ids, @books, :id, :title, {}, { multiple: true } %>
+<%= f.collection_check_boxes :book_ids, @books, :id, :title_and_author, {}, { multiple: true } do |box| %>
+  <p>
+    <%= box.label { box.check_box + box.text } %>
+  </p>
+<% end %>
