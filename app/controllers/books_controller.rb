@@ -4,17 +4,7 @@ class BooksController < ApplicationController
 
   def index
     @search_term = filter_params[:search_term]
-
-    if @search_term.nil? && params[:sort].nil?
-      @books = Book.all.sort_by{|book| book[:title]}
-    elsif params[:sort] == 'has_been_read'
-      @books = filter(Book.all).sort_by{|book| STATUS_SORT_ORDER.find_index(book[params[:sort]])}
-    elsif params[:sort] == 'author'
-      @books = filter(Book.all).sort_by{|book| book.author.surname}
-    else
-      @books = filter(Book.all).sort_by{|book| book[params[:sort]] || 0}
-    end
-
+    @books = helpers.filter_and_sort_books(Book.all, params[:sort], @search_term)
   end
 
   def show
@@ -137,18 +127,6 @@ class BooksController < ApplicationController
 
     def filter_params
       params.fetch(:filter, {}).permit(:search_term)
-    end
-
-    def filter(books)
-      return books if filter_params.empty?
-      title_results = books.where("lower(title) LIKE (?)", "%#{filter_params[:search_term]}%")
-      author_results = books.joins(:author).where("lower(authors.first_name || ' ' || authors.surname) LIKE (?)", "%#{filter_params[:search_term]}%")
-      subtitle_results = books.where("lower(subtitle) LIKE (?)", "%#{filter_params[:search_term]}%")
-      blurb_results = books.where("lower(blurb) LIKE (?)", "%#{filter_params[:search_term]}%")
-      publisher_results = books.where("lower(publisher) LIKE (?)", "%#{filter_params[:search_term]}%")
-      series_results = books.joins(:series).where("lower(series.title) LIKE (?)", "%#{filter_params[:search_term]}%")
-      list_results = books.joins(:lists).where("lower(lists.title) LIKE (?)", "%#{filter_params[:search_term]}%")
-      (title_results + author_results + series_results + subtitle_results + list_results + blurb_results + publisher_results).uniq
     end
 
     def related_books(books, read_status=['Yes', 'In progress', 'No'])
