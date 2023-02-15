@@ -7,6 +7,6 @@ class Book < ApplicationRecord
   has_one_attached :photo, :dependent => :destroy
 
   def title_and_author
-    "#{title} (#{author.first_name} #{author.surname})"
+    "#{title} (#{author.full_name})"
   end
 end

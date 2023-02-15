@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get :recommendations
     end
   end
+
   resources :lists do
     member do
       get :delete
