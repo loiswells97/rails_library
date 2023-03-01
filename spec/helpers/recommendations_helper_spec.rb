@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe RecommendationsHelper, type: :helper do
   describe 'related books' do
-    let(:series) { Series.create(title: 'Puritan Paperbacks')}
+    let(:series) { create(:series) }
     let!(:book1) { create(:book, series: series) }
     let!(:book2) { create(:book, author: book1.author) }
     let!(:book3) { create(:book, series: series) }
     let!(:book4) { create(:book)}
-    let!(:list) { List.create(title: 'Suffering', books: [book3, book4]) }
+    let!(:list) { create(:list, books: [book3, book4]) }
 
     it 'considers a book to be related to itself' do
       expect(helper.related_books([book1])).to include(book1)
