@@ -64,4 +64,36 @@ RSpec.describe RecommendationsHelper, type: :helper do
       expect(rogue_suggestions).to include(book)
     end
   end
+
+  describe 'rereads' do
+    let(:book) {create(:book)}
+    before do
+      helper.cookies[:reread_wait] = 5
+    end
+
+    it 'does not suggest related unread books' do
+      unread_book = create(:book, author: book.author, has_been_read: 'No')
+      expect(rereads([book])).not_to include(unread_book)
+    end
+
+    it 'does not suggest related in progress books' do
+      current_book = create(:book, author: book.author, has_been_read: 'In progress')
+      expect(rereads([book])).not_to include(current_book)
+    end
+
+    it 'does not suggest related books read within wait period' do
+      recently_read_book = create(:book, author: book.author, has_been_read: 'Yes', date_finished_reading: 1.year.ago)
+      expect(rereads([book])).not_to include(recently_read_book)
+    end
+
+    it 'does not suggest unrelated books read before wait period' do
+      unrelated_book = create(:book, has_been_read: 'Yes', date_finished_reading: 10.years.ago)
+      expect(rereads([book])).not_to include(unrelated_book)
+    end
+
+    it 'suggests related books read before wait period' do
+      unrecently_read_book = create(:book, author: book.author, has_been_read: 'Yes', date_finished_reading: 10.years.ago)
+      expect(rereads([book])).to include(unrecently_read_book)
+    end
+  end
 end
