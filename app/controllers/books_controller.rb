@@ -86,7 +86,13 @@ class BooksController < ApplicationController
 
   def destroy
     @book = Book.find(params[:id])
+    author = @book.author
+    series = @book.series
+    
     @book.destroy
+    author.destroy unless author.books.length > 0
+    series.destroy unless series.books.length > 0
+
     redirect_to(books_path)
   end
 
