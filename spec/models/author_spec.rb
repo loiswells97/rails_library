@@ -7,7 +7,7 @@ RSpec.describe Author, type: :model do
 
   describe 'methods' do
     context 'when first_name present' do
-      subject { Author.new(first_name: 'John', surname: 'Owen') }
+      subject { build(:author, first_name: 'John', surname: 'Owen') }
 
       it 'outputs first name and surname' do
         expect(subject.full_name).to eq('John Owen')
@@ -15,7 +15,7 @@ RSpec.describe Author, type: :model do
     end
 
     context 'when first_name empty' do
-      subject { Author.new(first_name: '', surname: 'Owen') }
+      subject { build(:author, first_name: '', surname: 'Owen') }
       
       it 'outputs just surname' do
         expect(subject.full_name).to eq('Owen')

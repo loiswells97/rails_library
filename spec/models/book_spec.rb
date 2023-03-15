@@ -14,8 +14,8 @@ RSpec.describe Book, type: :model do
   end
 
   describe 'methods' do
-    let(:author) { Author.new(first_name: 'Dustin', surname: 'Benge') }
-    subject { Book.new(title: 'The Loveliest Place', author: author) }
+    let(:author) { build(:author, first_name: 'Dustin', surname: 'Benge') }
+    subject { build(:book, title: 'The Loveliest Place', author: author) }
 
     it 'outputs title and author as expected' do
       expect(subject.title_and_author).to eq("The Loveliest Place (Dustin Benge)")
