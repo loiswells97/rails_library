@@ -1,0 +1,20 @@
+<h1>Insights 📊</h1>
+
+<table>
+    <tr>
+      <th>Title</th>
+      <th>Related count</th>
+      <th>Same author count</th>
+      <th>Same series count</th>
+      <th>Same list count</th>
+    </tr>
+  <% @books.each do |book| %>
+    <tr>
+      <td><%= book.title %></td>
+      <td><%= book.related.count %></td>
+      <td><%= book.related_by_author.count %></td>
+      <td><%= book.related_by_series.count %></td>
+      <td><%= book.related_by_list.count %></td>
+    </tr>
+  <% end %>
+</table>

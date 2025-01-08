@@ -108,6 +108,10 @@ class BooksController < ApplicationController
     @favourites_list = List.find_by(title: 'Favourites 🌟')
   end
 
+  def insights
+    @books = Book.all
+  end
+
   private
     def book_params
       params.require(:book).permit(

@@ -21,7 +21,7 @@ class Book < ApplicationRecord
   end
 
   def related_by_series
-    series.books - [self]
+    series ? series.books - [self] : []
   end
 
   def related_by_list

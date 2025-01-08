@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :recommendations
+      get :insights
     end
   end
 
